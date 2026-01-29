@@ -16,7 +16,7 @@ export class DinqClient {
     body?: any
   ): Promise<T> {
     const url = `${this.baseURL}${path}`;
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${this.token}`,
     };
@@ -32,7 +32,7 @@ export class DinqClient {
       throw new Error(`API request failed: ${response.status} ${error}`);
     }
 
-    return response.json();
+    return response.json() as Promise<T>;
   }
 
   // Generate a card
