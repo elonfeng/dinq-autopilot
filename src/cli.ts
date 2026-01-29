@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { homedir } from "os";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -9,7 +9,12 @@ import * as readline from "readline/promises";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const CLAUDE_CONFIG_PATH = join(homedir(), ".claude.json");
+// Configuration paths for different platforms
+const CONFIG_PATHS = {
+  claude: join(homedir(), ".claude.json"),
+  cursor: join(homedir(), ".cursor", "mcp.json"),
+  windsurf: join(homedir(), ".windsurf", "mcp_settings.json"),
+};
 
 function getVersion(): string {
   const packagePath = join(__dirname, "..", "package.json");
@@ -17,9 +22,7 @@ function getVersion(): string {
   return packageJson.version;
 }
 
-async function login() {
-  console.log("Dinq Autopilot Login\n");
-
+async function getTokenFromBrowser(): Promise<string> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -43,55 +46,177 @@ async function login() {
       process.exit(1);
     }
 
-    // Read existing config or create new one
-    let config: any = {};
-    if (existsSync(CLAUDE_CONFIG_PATH)) {
-      const content = readFileSync(CLAUDE_CONFIG_PATH, "utf-8");
-      config = JSON.parse(content);
-    }
-
-    // Add or update dinq-autopilot server
-    if (!config.mcpServers) {
-      config.mcpServers = {};
-    }
-
-    config.mcpServers["dinq-autopilot"] = {
-      command: "npx",
-      args: ["-y", "dinq-autopilot"],
-      env: {
-        DINQ_USER_TOKEN: token.trim(),
-        DINQ_API_ENDPOINT: "https://api.dinq.me",
-      },
-    };
-
-    // Write config
-    writeFileSync(CLAUDE_CONFIG_PATH, JSON.stringify(config, null, 2));
-
-    console.log("\nLogin complete!");
-    console.log(`\nConfiguration saved to: ${CLAUDE_CONFIG_PATH}`);
-    console.log("\nYou can now use dinq-autopilot in Claude Code:");
-    console.log("  claude");
-    console.log('  > Create a token stats card\n');
-  } catch (error) {
-    console.error("Error: Login failed:", error);
-    process.exit(1);
+    return token.trim();
   } finally {
     rl.close();
   }
 }
 
-const command = process.argv[2];
+async function setupClaude(token: string) {
+  const configPath = CONFIG_PATHS.claude;
 
-if (command === "login") {
-  login();
+  // Read existing config or create new one
+  let config: any = {};
+  if (existsSync(configPath)) {
+    const content = readFileSync(configPath, "utf-8");
+    config = JSON.parse(content);
+  }
+
+  // Add or update dinq-autopilot server
+  if (!config.mcpServers) {
+    config.mcpServers = {};
+  }
+
+  config.mcpServers["dinq-autopilot"] = {
+    command: "npx",
+    args: ["-y", "dinq-autopilot"],
+    env: {
+      DINQ_USER_TOKEN: token,
+      DINQ_API_ENDPOINT: "https://api.dinq.me",
+    },
+  };
+
+  // Write config
+  writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+  console.log("\nSetup complete!");
+  console.log(`\nConfiguration saved to: ${configPath}`);
+  console.log("\nPlease restart Claude Code to load the new configuration:");
+  console.log("  1. Exit current Claude Code session");
+  console.log("  2. Run 'claude' to start a new session");
+  console.log("  3. Try: 'Create a GitHub card for my profile'\n");
+}
+
+async function setupCursor(token: string) {
+  const configPath = CONFIG_PATHS.cursor;
+  const configDir = dirname(configPath);
+
+  // Create directory if not exists
+  if (!existsSync(configDir)) {
+    mkdirSync(configDir, { recursive: true });
+  }
+
+  // Read existing config or create new one
+  let config: any = { mcpServers: {} };
+  if (existsSync(configPath)) {
+    const content = readFileSync(configPath, "utf-8");
+    config = JSON.parse(content);
+  }
+
+  if (!config.mcpServers) {
+    config.mcpServers = {};
+  }
+
+  config.mcpServers["dinq-autopilot"] = {
+    command: "npx",
+    args: ["-y", "dinq-autopilot"],
+    env: {
+      DINQ_USER_TOKEN: token,
+      DINQ_API_ENDPOINT: "https://api.dinq.me",
+    },
+  };
+
+  // Write config
+  writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+  console.log("\nSetup complete!");
+  console.log(`\nConfiguration saved to: ${configPath}`);
+  console.log("\nPlease restart Cursor to load the new configuration:");
+  console.log("  1. Exit Cursor");
+  console.log("  2. Reopen Cursor");
+  console.log("  3. Try using Dinq autopilot in Composer\n");
+}
+
+async function setupWindsurf(token: string) {
+  const configPath = CONFIG_PATHS.windsurf;
+  const configDir = dirname(configPath);
+
+  // Create directory if not exists
+  if (!existsSync(configDir)) {
+    mkdirSync(configDir, { recursive: true });
+  }
+
+  // Read existing config or create new one
+  let config: any = { mcpServers: {} };
+  if (existsSync(configPath)) {
+    const content = readFileSync(configPath, "utf-8");
+    config = JSON.parse(content);
+  }
+
+  if (!config.mcpServers) {
+    config.mcpServers = {};
+  }
+
+  config.mcpServers["dinq-autopilot"] = {
+    command: "npx",
+    args: ["-y", "dinq-autopilot"],
+    env: {
+      DINQ_USER_TOKEN: token,
+      DINQ_API_ENDPOINT: "https://api.dinq.me",
+    },
+  };
+
+  // Write config
+  writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+  console.log("\nSetup complete!");
+  console.log(`\nConfiguration saved to: ${configPath}`);
+  console.log("\nPlease restart Windsurf to load the new configuration:");
+  console.log("  1. Exit Windsurf");
+  console.log("  2. Reopen Windsurf");
+  console.log("  3. Try using Dinq autopilot in Cascade\n");
+}
+
+async function setup(platform: string) {
+  console.log(`Dinq Autopilot Setup - ${platform.charAt(0).toUpperCase() + platform.slice(1)}\n`);
+
+  const token = await getTokenFromBrowser();
+
+  switch (platform) {
+    case "claude":
+      await setupClaude(token);
+      break;
+    case "cursor":
+      await setupCursor(token);
+      break;
+    case "windsurf":
+      await setupWindsurf(token);
+      break;
+    default:
+      console.error(`Error: Unknown platform '${platform}'`);
+      console.error("Supported platforms: claude, cursor, windsurf");
+      process.exit(1);
+  }
+}
+
+// Main
+const command = process.argv[2];
+const platform = process.argv[3];
+
+if (command === "setup") {
+  if (!platform) {
+    console.error("Error: Platform is required\n");
+    console.log("Usage:");
+    console.log("  dinq-autopilot setup claude");
+    console.log("  dinq-autopilot setup cursor");
+    console.log("  dinq-autopilot setup windsurf");
+    process.exit(1);
+  }
+  setup(platform);
 } else if (command === "--version" || command === "-v") {
   console.log(getVersion());
 } else {
   console.log("Dinq Autopilot CLI\n");
   console.log("Available commands:");
-  console.log("  login            Login and configure dinq-autopilot");
-  console.log("  -v, --version    Show version number");
+  console.log("  setup <platform>    Configure dinq-autopilot for a specific platform");
+  console.log("  -v, --version       Show version number");
+  console.log("\nSupported platforms:");
+  console.log("  claude              Claude Code");
+  console.log("  cursor              Cursor");
+  console.log("  windsurf            Windsurf");
   console.log("\nUsage:");
-  console.log("  dinq-autopilot login");
+  console.log("  dinq-autopilot setup claude");
+  console.log("  dinq-autopilot setup cursor");
+  console.log("  dinq-autopilot setup windsurf");
   console.log("  dinq-autopilot --version");
 }
