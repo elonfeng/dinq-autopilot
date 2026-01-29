@@ -20,7 +20,7 @@ async function setup() {
     await rl.question("");
 
     // Open browser
-    const url = "https://dinq.me/settings/api";
+    const url = "https://dinq.me/";
     const { exec } = await import("child_process");
     const openCommand = process.platform === "darwin" ? "open" : process.platform === "win32" ? "start" : "xdg-open";
     exec(`${openCommand} ${url}`);

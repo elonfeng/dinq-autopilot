@@ -41,7 +41,7 @@ npm install -g dinq-autopilot
 ```bash
 dinq-autopilot setup
 ```
-Enter your Dinq API token (get it from [dinq.me/settings/api](https://dinq.me/settings/api))
+Enter your Dinq API token (get it from [dinq.me](https://dinq.me))
 
 **3. Use**
 
@@ -152,7 +152,7 @@ npm install -g dinq-autopilot
 ```bash
 dinq-autopilot setup
 ```
-输入你的 Dinq API token（从 [dinq.me/settings/api](https://dinq.me/settings/api) 获取）
+输入你的 Dinq API token（从 [dinq.me](https://dinq.me) 获取）
 
 **3. 使用**
 
