@@ -8,113 +8,106 @@
 
 ## English
 
-**AI Autopilot for Your Dinq Profile**
+### Use Code Agent to Automatically Manage Your Dinq Cards
 
-Auto-generate Dinq cards with Code Agents - Claude Code, Cursor, Windsurf & more.
+dinq-autopilot lets you create and manage Dinq cards through natural language - just talk to your AI coding assistant (Claude Code, Cursor, Windsurf, Codex, etc.), and cards appear on your Dinq profile automatically.
 
-### What is dinq-autopilot?
-
-dinq-autopilot is an AI agent that automatically manages your [Dinq](https://dinq.me) profile through natural language commands. Built on the Model Context Protocol (MCP), it works seamlessly with Claude Code, Cursor, Windsurf, and other AI coding assistants.
-
-**The Old Way:**
-1. Open browser → dinq.me
-2. Login → Click "Add Card" → Fill form → Save
-
-**The Autopilot Way:**
+**Example:**
 ```
-You: "Create a token stats card for this week"
-AI: ✅ Done!
+You: "Create a GitHub card for my profile github.com/username"
+AI:  ✅ GitHub card created!
+
+You: "Create a token stats card - 50000 input, 30000 output tokens"
+AI:  ✅ Token stats card created!
+
+You: "List all my cards"
+AI:  📋 Your cards:
+     1. [GITHUB] username
+     2. [TOKEN_STATS] This month
 ```
 
-### Features
+<!-- Demo GIF will go here -->
 
-- 🤖 Natural language control - Command your Dinq profile through conversational AI
-- 📊 Token statistics - Track your Claude Code usage automatically
-- 🔗 Social media cards - Batch import GitHub, LinkedIn, Twitter profiles
-- 📝 Custom notes - Create markdown-powered note cards
-- 🎯 Career trajectory - Generate professional timeline from your bio
-- 🎨 Smart management - List, update, and delete cards
+---
 
 ### Quick Start
 
-**Installation:**
+**1. Install**
 ```bash
 npm install -g dinq-autopilot
 ```
 
-**Setup:**
+**2. Setup**
 ```bash
 dinq-autopilot setup
 ```
+Enter your Dinq API token (get it from [dinq.me/settings/api](https://dinq.me/settings/api))
 
-Get your Dinq API token from [dinq.me/settings/api](https://dinq.me/settings/api)
+**3. Use**
 
-**Usage in Claude Code:**
+In Claude Code:
 ```bash
 claude
-
-> Create a token stats card with 15000 input and 8000 output tokens
-✅ Token statistics card created!
-
-> Create a GitHub card for github.com/username
-✅ GitHub card created!
-
-> List all my cards
-📋 Your cards: ...
+> Create a note card titled "Meeting Notes" with content "Discussed Q1 roadmap"
 ```
 
-### Available Commands
+In Cursor:
+```
+Cmd+K → "Add my LinkedIn profile to Dinq: linkedin.com/in/username"
+```
 
-**Card Creation:**
-- `create_token_stats_card` - Generate token usage statistics
-- `create_github_card` - Create GitHub profile card
-- `create_note_card` - Create custom note card
-- `create_social_cards` - Batch import social profiles
-- `create_career_trajectory` - Generate career timeline
+That's it! The autopilot automatically calls Dinq API and creates cards for you.
 
-**Card Management:**
-- `list_cards` - View all your cards
-- `delete_card` - Remove a card
+---
+
+### What You Can Do
+
+**Create Cards:**
+- Token usage statistics (auto-track your AI usage)
+- Social media profiles (GitHub, LinkedIn, Twitter, Spotify, etc.)
+- Career trajectory (AI-generated timeline from your bio)
+- Custom notes (Markdown-powered)
+- Batch import multiple platforms at once
+
+**Manage Cards:**
+- List all cards
+- Delete cards
+- Update existing cards
+
+**All Through Natural Language** - No clicking, no forms, no context switching.
+
+---
 
 ### Supported Tools
 
-- Claude Code
-- Cursor
-- Windsurf
-- VS Code (with Cline)
-- Any MCP-compatible AI tool
+Works with any MCP-compatible AI coding assistant:
+
+- **Claude Code**
+- **Cursor**
+- **Windsurf**
+- **Codex**
+- **VS Code** (with Cline extension)
+- Any other MCP client
+
+---
+
+### How It Works
+
+```
+You → AI Assistant → dinq-autopilot (MCP Server) → Dinq API → Card Created ✅
+```
+
+Built on [Model Context Protocol (MCP)](https://modelcontextprotocol.io) - the open standard for connecting AI assistants to external tools.
+
+---
 
 ### Configuration
 
-**Claude Code** (`~/.claude.json`):
-```json
-{
-  "mcpServers": {
-    "dinq-autopilot": {
-      "command": "npx",
-      "args": ["-y", "dinq-autopilot"],
-      "env": {
-        "DINQ_USER_TOKEN": "your_token_here"
-      }
-    }
-  }
-}
-```
+After running `dinq-autopilot setup`, the tool automatically configures itself in your AI assistant. Your API token is stored locally and never shared.
 
-**Cursor** (`~/.cursor/mcp.json`):
-```json
-{
-  "mcpServers": {
-    "dinq-autopilot": {
-      "command": "npx",
-      "args": ["-y", "dinq-autopilot"],
-      "env": {
-        "DINQ_USER_TOKEN": "your_token_here"
-      }
-    }
-  }
-}
-```
+Manual configuration: See [examples/](./examples) for Claude Code, Cursor, and other tools.
+
+---
 
 ### License
 
@@ -126,113 +119,106 @@ MIT
 
 ## 中文
 
-**你的 Dinq 个人资料 AI 自动驾驶**
+### 使用 Code Agent 自动操作你的 Dinq 卡片
 
-使用 Code Agent 自动生成 Dinq 卡片 - 支持 Claude Code、Cursor、Windsurf 等。
+dinq-autopilot 让你通过自然语言创建和管理 Dinq 卡片 - 只需对你的 AI 编程助手（Claude Code、Cursor、Windsurf、Codex 等）说话，卡片就会自动出现在你的 Dinq 主页上。
 
-### 这是什么？
-
-dinq-autopilot 是一个 AI 代理，通过自然语言命令自动管理你的 [Dinq](https://dinq.me) 个人资料。基于模型上下文协议（MCP）构建，与 Claude Code、Cursor、Windsurf 等 AI 编程助手无缝协作。
-
-**传统方式：**
-1. 打开浏览器 → dinq.me
-2. 登录 → 点击「添加卡片」→ 填表 → 保存
-
-**自动驾驶方式：**
+**示例：**
 ```
-你：「创建一个本周的 token 统计卡片」
-AI：✅ 完成！
+你：「为我的 GitHub 主页 github.com/username 创建一张卡片」
+AI： ✅ GitHub 卡片已创建！
+
+你：「创建一个 token 统计卡片 - 输入 50000，输出 30000 tokens」
+AI： ✅ Token 统计卡片已创建！
+
+你：「列出我所有的卡片」
+AI： 📋 你的卡片：
+     1. [GITHUB] username
+     2. [TOKEN_STATS] 本月统计
 ```
 
-### 功能特性
+<!-- 演示 GIF 将放在这里 -->
 
-- 🤖 自然语言控制 - 通过对话式 AI 指挥你的 Dinq
-- 📊 Token 统计 - 自动追踪 Claude Code 使用情况
-- 🔗 社交媒体卡片 - 批量导入 GitHub、LinkedIn、Twitter 等
-- 📝 自定义笔记 - 创建 Markdown 笔记卡片
-- 🎯 职业轨迹 - 从个人简介生成专业时间线
-- 🎨 智能管理 - 列出、更新、删除卡片
+---
 
 ### 快速开始
 
-**安装：**
+**1. 安装**
 ```bash
 npm install -g dinq-autopilot
 ```
 
-**配置：**
+**2. 配置**
 ```bash
 dinq-autopilot setup
 ```
+输入你的 Dinq API token（从 [dinq.me/settings/api](https://dinq.me/settings/api) 获取）
 
-从 [dinq.me/settings/api](https://dinq.me/settings/api) 获取你的 Dinq API token
+**3. 使用**
 
-**在 Claude Code 中使用：**
+在 Claude Code 中：
 ```bash
 claude
-
-> 创建一个 token 统计卡片，输入 15000，输出 8000
-✅ Token 统计卡片已创建！
-
-> 为 github.com/username 创建 GitHub 卡片
-✅ GitHub 卡片已创建！
-
-> 列出我所有的卡片
-📋 你的卡片：...
+> 创建一个笔记卡片，标题是「会议记录」，内容是「讨论了 Q1 路线图」
 ```
 
-### 可用命令
+在 Cursor 中：
+```
+Cmd+K → 「把我的 LinkedIn 加到 Dinq：linkedin.com/in/username」
+```
 
-**卡片创建：**
-- `create_token_stats_card` - 生成 token 使用统计
-- `create_github_card` - 创建 GitHub 卡片
-- `create_note_card` - 创建自定义笔记
-- `create_social_cards` - 批量导入社交媒体
-- `create_career_trajectory` - 生成职业轨迹
+就这样！自动驾驶会自动调用 Dinq API 为你创建卡片。
 
-**卡片管理：**
-- `list_cards` - 查看所有卡片
-- `delete_card` - 删除卡片
+---
+
+### 你可以做什么
+
+**创建卡片：**
+- Token 使用统计（自动追踪 AI 使用情况）
+- 社交媒体资料（GitHub、LinkedIn、Twitter、Spotify 等）
+- 职业轨迹（AI 根据你的简介生成时间线）
+- 自定义笔记（支持 Markdown）
+- 批量导入多个平台
+
+**管理卡片：**
+- 列出所有卡片
+- 删除卡片
+- 更新现有卡片
+
+**全部通过自然语言完成** - 无需点击、无需填表、无需切换窗口。
+
+---
 
 ### 支持的工具
 
-- Claude Code
-- Cursor
-- Windsurf
-- VS Code（配合 Cline）
-- 任何兼容 MCP 的 AI 工具
+适用于任何兼容 MCP 的 AI 编程助手：
 
-### 配置方法
+- **Claude Code**
+- **Cursor**
+- **Windsurf**
+- **Codex**
+- **VS Code**（配合 Cline 扩展）
+- 任何其他 MCP 客户端
 
-**Claude Code** (`~/.claude.json`)：
-```json
-{
-  "mcpServers": {
-    "dinq-autopilot": {
-      "command": "npx",
-      "args": ["-y", "dinq-autopilot"],
-      "env": {
-        "DINQ_USER_TOKEN": "你的_token"
-      }
-    }
-  }
-}
+---
+
+### 工作原理
+
+```
+你 → AI 助手 → dinq-autopilot (MCP 服务器) → Dinq API → 卡片创建 ✅
 ```
 
-**Cursor** (`~/.cursor/mcp.json`)：
-```json
-{
-  "mcpServers": {
-    "dinq-autopilot": {
-      "command": "npx",
-      "args": ["-y", "dinq-autopilot"],
-      "env": {
-        "DINQ_USER_TOKEN": "你的_token"
-      }
-    }
-  }
-}
-```
+基于 [模型上下文协议 (MCP)](https://modelcontextprotocol.io) 构建 - 连接 AI 助手与外部工具的开放标准。
+
+---
+
+### 配置说明
+
+运行 `dinq-autopilot setup` 后，工具会自动在你的 AI 助手中完成配置。你的 API token 存储在本地，不会被分享。
+
+手动配置：查看 [examples/](./examples) 目录，有 Claude Code、Cursor 等工具的配置示例。
+
+---
 
 ### 开源协议
 
