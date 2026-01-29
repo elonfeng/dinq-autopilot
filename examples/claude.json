@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "dinq-autopilot": {
+      "command": "npx",
+      "args": ["-y", "dinq-autopilot"],
+      "env": {
+        "DINQ_USER_TOKEN": "your_token_here",
+        "DINQ_API_ENDPOINT": "https://api.dinq.me"
+      }
+    }
+  }
+}
