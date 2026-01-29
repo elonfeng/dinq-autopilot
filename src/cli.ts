@@ -2,13 +2,23 @@
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { homedir } from "os";
-import { join } from "path";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import * as readline from "readline/promises";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const CLAUDE_CONFIG_PATH = join(homedir(), ".claude.json");
 
+function getVersion(): string {
+  const packagePath = join(__dirname, "..", "package.json");
+  const packageJson = JSON.parse(readFileSync(packagePath, "utf-8"));
+  return packageJson.version;
+}
+
 async function setup() {
-  console.log("🚀 Dinq Autopilot Setup\n");
+  console.log("Dinq Autopilot Setup\n");
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -25,11 +35,11 @@ async function setup() {
     const openCommand = process.platform === "darwin" ? "open" : process.platform === "win32" ? "start" : "xdg-open";
     exec(`${openCommand} ${url}`);
 
-    console.log(`✅ Browser opened: ${url}\n`);
+    console.log(`Browser opened: ${url}\n`);
     const token = await rl.question("Enter your Dinq API token: ");
 
     if (!token.trim()) {
-      console.error("❌ Token cannot be empty");
+      console.error("Error: Token cannot be empty");
       process.exit(1);
     }
 
@@ -57,13 +67,13 @@ async function setup() {
     // Write config
     writeFileSync(CLAUDE_CONFIG_PATH, JSON.stringify(config, null, 2));
 
-    console.log("\n✅ Setup complete!");
+    console.log("\nSetup complete!");
     console.log(`\nConfiguration saved to: ${CLAUDE_CONFIG_PATH}`);
     console.log("\nYou can now use dinq-autopilot in Claude Code:");
     console.log("  claude");
     console.log('  > Create a token stats card\n');
   } catch (error) {
-    console.error("❌ Setup failed:", error);
+    console.error("Error: Setup failed:", error);
     process.exit(1);
   } finally {
     rl.close();
@@ -74,10 +84,14 @@ const command = process.argv[2];
 
 if (command === "setup") {
   setup();
+} else if (command === "--version" || command === "-v") {
+  console.log(getVersion());
 } else {
   console.log("Dinq Autopilot CLI\n");
   console.log("Available commands:");
-  console.log("  setup    Configure dinq-autopilot for Claude Code");
+  console.log("  setup        Configure dinq-autopilot for Claude Code");
+  console.log("  -v, --version    Show version number");
   console.log("\nUsage:");
   console.log("  dinq-autopilot setup");
+  console.log("  dinq-autopilot --version");
 }
