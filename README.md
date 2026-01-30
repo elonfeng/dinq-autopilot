@@ -17,13 +17,6 @@ dinqbot lets you create and manage Dinq cards through natural language - just ta
 You: "Create a GitHub card for my profile github.com/username"
 AI:  ✅ GitHub card created!
 
-You: "Create a token stats card - 50000 input, 30000 output tokens"
-AI:  ✅ Token stats card created!
-
-You: "List all my cards"
-AI:  📋 Your cards:
-     1. [GITHUB] username
-     2. [TOKEN_STATS] This month
 ```
 
 <!-- Demo GIF will go here -->
