@@ -48,7 +48,7 @@ Follow the browser prompt to get your Dinq API token from [dinq.me/dinqbot](http
 In Claude Code:
 ```bash
 claude
-> Create a note card titled "Meeting Notes" with content "Discussed Q1 roadmap"
+> Create a github card"
 ```
 
 In Cursor:
